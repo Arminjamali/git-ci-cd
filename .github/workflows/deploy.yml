@@ -1,0 +1,23 @@
+name: Deploy to Hosting
+
+on:
+  push:
+    branches:
+      - main  # هر بار که push به main بزنی، deploy میشه
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: دریافت کدها
+        uses: actions/checkout@v3
+
+      - name: آپلود روی هاست
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.4
+        with:
+          server: ${{ secrets.FTP_HOST }}
+          username: ${{ secrets.FTP_USER }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          local-dir: ./          # پوشه لوکال که آپلود میشه
+          server-dir: /public_html/  # مقصد روی هاست
